@@ -31,5 +31,5 @@ Trello.requestCredential = function (options, credentialRequestCompleteCallback)
         + encodeURIComponent(callbackUrl)
         + '&state=' + credentialToken;
 
-  Oauth.initiateLogin(credentialToken, url, credentialRequestCompleteCallback);
+  Oauth.initiateLogin(credentialToken, url, credentialRequestCompleteCallback, {width: 600, height: 820});
 };

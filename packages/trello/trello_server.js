@@ -1,5 +1,31 @@
 // https://api.trello.com/1/members/me
-Trello.whitelistedFields = ['username', 'fullName', 'url', 'organizations', 'boards'];
+Trello.whitelistedFields = [
+  "id",
+  "avatarHash",
+  "bio",
+  "confirmed",
+  "fullName",
+  "idPremOrgsAdmin",
+  "initials",
+  "memberType",
+  "status",
+  "url",
+  "username",
+  "avatarSource",
+  "email",
+  "gravatarHash",
+  "idBoards",
+  "idBoardsInvited",
+  "idBoardsPinned",
+  "idOrganizations",
+  "idOrganizationsInvited",
+  "loginTypes",
+  "newEmail",
+  "oneTimeMessagesDismissed",
+  "prefs",
+  "trophies",
+  "uploadedAvatarHash"
+]
 
 Oauth.registerService('trello', 1, Trello._urls, function(oauthBinding) {
   var identity = oauthBinding.get('https://api.trello.com/1/members/me').data;
@@ -19,7 +45,7 @@ Oauth.registerService('trello', 1, Trello._urls, function(oauthBinding) {
     serviceData: serviceData,
     options: {
       profile: {
-        name: identity.fullName
+        trello: identity
       }
     }
   };
