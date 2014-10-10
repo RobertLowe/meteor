@@ -1627,7 +1627,8 @@ _.extend(PackageSource.prototype, {
             if ((path.sep + relPath).indexOf(clientCompatSubstr) !== -1)
               sourceObj.fileOptions = {
                 bare: true,
-                isAsset: true
+                isAsset: true,
+                isWorker: true // XXX: this isn't strictly required but more of a nice-to-have
               };
           }
 

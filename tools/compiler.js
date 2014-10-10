@@ -451,18 +451,16 @@ var compileUnibuild = function (isopk, inputSourceArch, packageLoader,
 
     // Find the handler for source files with this extension.
     var handler = null;
-    if (! fileOptions.isAsset) {
-      var parts = filename.split('.');
-      for (var i = 0; i < parts.length; i++) {
-        var extension = parts.slice(i).join('.');
-        if (_.has(allHandlers, extension)) {
-          handler = allHandlers[extension];
-          break;
-        }
+    var parts = filename.split('.');
+    for (var i = 0; i < parts.length; i++) {
+      var extension = parts.slice(i).join('.');
+      if (_.has(allHandlers, extension)) {
+        handler = allHandlers[extension];
+        break;
       }
     }
 
-    if (! handler) {
+    if (!handler && fileOptions.isAsset) {
       // If we don't have an extension handler, serve this file as a
       // static resource on the client, or ignore it on the server.
       //
@@ -781,13 +779,20 @@ var compileUnibuild = function (isopk, inputSourceArch, packageLoader,
           throw new Error("'sourcePath' option must be supplied to addJavaScript. Consider passing inputPath.");
         if (options.bare && ! archinfo.matches(inputSourceArch.arch, "web"))
           throw new Error("'bare' option may only be used for web targets");
-        js.push({
-          source: options.data,
-          sourcePath: options.sourcePath,
-          servePath: path.join(inputSourceArch.pkg.serveRoot, options.path),
-          bare: !! fileOptions.bare,
-          sourceMap: options.sourceMap
-        });
+
+        // XXX: support web workers by serving them as assets
+        if (fileOptions.isWorker){
+          // TODO: support for web worker source maps
+          addAsset(options.data, options.path);
+        } else {
+          js.push({
+            source: options.data,
+            sourcePath: options.sourcePath,
+            servePath: path.join(inputSourceArch.pkg.serveRoot, options.path),
+            bare: !! fileOptions.bare,
+            sourceMap: options.sourceMap
+          });
+        }
       },
 
       /**
