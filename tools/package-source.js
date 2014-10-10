@@ -1616,7 +1616,7 @@ _.extend(PackageSource.prototype, {
               sourceObj.fileOptions = {bare: true};
           }
 
-          console.log("Doing stuff for: " relPath);
+          console.log("Doing stuff for: ", relPath);
           // Special case: on the client, JavaScript files in a
           // `client/worker` directory indicates a web worker which should NOT 
           // be wrapped in a clourse or bundled as javascript, it should be
