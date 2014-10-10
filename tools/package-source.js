@@ -1621,7 +1621,7 @@ _.extend(PackageSource.prototype, {
           // `client/worker` directory indicates a web worker which should NOT 
           // be wrapped in a clourse or bundled as javascript, it should be
           // served as a normal asset
-          if (archinfo.matches(arch, "web") && relPath.match(/\.js$/)) {
+          if (archinfo.matches(arch, "web") && (relPath.match(/\.js$/) || relPath.match(/\.coffee$/))) {
             var clientCompatSubstr =
                   path.sep + 'client' + path.sep + 'worker' + path.sep;
             if ((path.sep + relPath).indexOf(clientCompatSubstr) !== -1)
