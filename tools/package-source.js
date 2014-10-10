@@ -1615,6 +1615,22 @@ _.extend(PackageSource.prototype, {
             if ((path.sep + relPath).indexOf(clientCompatSubstr) !== -1)
               sourceObj.fileOptions = {bare: true};
           }
+
+          console.log("Doing stuff for: " relPath);
+          // Special case: on the client, JavaScript files in a
+          // `client/worker` directory indicates a web worker which should NOT 
+          // be wrapped in a clourse or bundled as javascript, it should be
+          // served as a normal asset
+          if (archinfo.matches(arch, "web") && relPath.match(/\.js$/)) {
+            var clientCompatSubstr =
+                  path.sep + 'client' + path.sep + 'worker' + path.sep;
+            if ((path.sep + relPath).indexOf(clientCompatSubstr) !== -1)
+              sourceObj.fileOptions = {
+                bare: true,
+                isAsset: true
+              };
+          }
+
           return sourceObj;
         });
 
